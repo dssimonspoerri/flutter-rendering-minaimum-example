@@ -1,5 +1,6 @@
 import 'package:pixel_snapping/minimal_render_view.dart';
 import 'package:flutter/material.dart';
+// import 'package:pixel_snap/material.dart';
 
 /// [MinimalRenderViewGrid] lays out render views in a grid.
 /// As a ValueNotifier+Button to toggle all views between video and image.
@@ -42,9 +43,11 @@ class MinimalRenderViewGrid extends StatelessWidget {
               children: [
                 Expanded(
                     child: MinimalRenderView(
+                        id: 0,
                         showImageValueNotifier: _showImageToogle)),
                 Expanded(
                     child: MinimalRenderView(
+                        id: 1,
                         showImageValueNotifier: _showImageToogle))
               ],
             ),
@@ -55,9 +58,11 @@ class MinimalRenderViewGrid extends StatelessWidget {
               children: [
                 Expanded(
                     child: MinimalRenderView(
+                        id: 2,
                         showImageValueNotifier: _showImageToogle)),
                 Expanded(
                     child: MinimalRenderView(
+                        id: 3,
                         showImageValueNotifier: _showImageToogle))
               ],
             ),
