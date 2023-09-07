@@ -46,10 +46,10 @@ class HtmlVideoViewState extends State<HtmlVideoView> {
         ..src = widget._videoUrl
         ..id = _elementIdForVideo
         ..loop = true
-        ..style.objectFit = 'contain'
+        ..style.objectFit = 'none'
         ..style.border = 'none'
-        ..style.width = '100%'
-        ..style.height = '100%'
+        ..style.width = '640px'
+        ..style.height = '386px'
         ..setAttribute('playsinline', 'true');
 
       element.onError.listen((html.Event _) {

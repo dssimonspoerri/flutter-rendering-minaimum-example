@@ -1,5 +1,53 @@
 import 'package:flutter/material.dart';
 
+class PositionOverlay extends StatefulWidget {
+  const PositionOverlay({
+    required this.child,
+    Key? key,
+  }) : super(key: key);
+
+  final Widget child;
+
+  @override
+  State<PositionOverlay> createState() =>
+      PositionOverlayState(this.child);
+}
+
+class PositionOverlayState extends State<PositionOverlay> {
+  PositionOverlayState(this.child);
+
+  final Widget child;
+
+  Offset position = Offset.zero;
+
+  @override
+  Widget build(BuildContext context) {
+
+    void getPosition(Duration timestamp) {
+      final RenderBox renderBox = context.findRenderObject() as RenderBox;
+      setState(() {
+        position = renderBox.localToGlobal(Offset.zero);
+      });
+      WidgetsBinding.instance.addPostFrameCallback(getPosition);
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback(getPosition);
+
+    // return child;
+
+    return Stack(
+            children: [
+              child,
+              Align(
+                child:Text('${position.dx} : ${position.dy}', style: TextStyle(color: Colors.lightBlue)),
+                alignment: Alignment.bottomRight,)
+            ],
+          
+    );
+  }
+}
+
+
 class PixelAlignedContainer extends StatefulWidget {
   const PixelAlignedContainer({
     required this.child,

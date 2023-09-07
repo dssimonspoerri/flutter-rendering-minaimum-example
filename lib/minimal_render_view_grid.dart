@@ -14,75 +14,83 @@ class MinimalRenderViewGrid extends StatelessWidget {
   final _showImageToogle = ValueNotifier(false);
 
   @override
-  Widget build(BuildContext context) => 
-    
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(
-                    padding: const EdgeInsets.all(8),
-                    child: ValueListenableBuilder(
-                      valueListenable: _showImageToogle,
-                      builder: (context, value, child) => Text(
-                        _showImageToogle.value
-                            ? 'Showing Image'
-                            : 'Showing Video',
-                        style: const TextStyle(inherit: false),
-                      ),
-                    )),
-                Container(
-                    padding: const EdgeInsets.all(8),
-                    child: FilledButton(
-                      onPressed: () =>
-                          _showImageToogle.value = !_showImageToogle.value,
-                      child: const Text('Toggle Image/Video'),
-                    ))
-              ],
-            ),
-            Text("Aligned"),
-            MinimalRenderView(id: 0, showImageValueNotifier: _showImageToogle),
-            Text("Unaligned"),
-            Container(
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBar(
+      title: Row(
+            children: [
+              Container(
+                  padding: const EdgeInsets.all(8),
+                  child: ValueListenableBuilder(
+                    valueListenable: _showImageToogle,
+                    builder: (context, value, child) => Text(
+                      _showImageToogle.value
+                          ? 'Showing Image'
+                          : 'Showing Video',
+                      style: const TextStyle(inherit: false),
+                    ),
+                  )),
+              Container(
+                  padding: const EdgeInsets.all(8),
+                  child: FilledButton(
+                    onPressed: () =>
+                        _showImageToogle.value = !_showImageToogle.value,
+                    child: const Text('Toggle Image/Video'),
+                  ))
+            ],
+          )),
+          body: SingleChildScrollView(
+              child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Aligned"),
+          MinimalRenderView(id: 0, showImageValueNotifier: _showImageToogle),
+          Text("Unaligned X"),
+          Container(
               padding: const EdgeInsets.only(left: 0.5),
-              child: MinimalRenderView(id: 1, showImageValueNotifier: _showImageToogle)),
-            Text("Pixel aligned unaligned"),
-            Container(padding: const EdgeInsets.only(left: 0.5),
-                  child:             PixelAlignedContainer(
-                key: Key('2'),
-                child: MinimalRenderView(id: 1, showImageValueNotifier: _showImageToogle)))
-      //   Expanded(
-      //     child: Row(
-      //       crossAxisAlignment: CrossAxisAlignment.stretch,
-      //       children: [
-      //         Expanded(
-      //             child: MinimalRenderView(
-      //                 id: 0,
-      //                 showImageValueNotifier: _showImageToogle)),
-      //         Expanded(
-      //             child: MinimalRenderView(
-      //                 id: 1,
-      //                 showImageValueNotifier: _showImageToogle))
-      //       ],
-      //     ),
-      //   ),
-      //   Expanded(
-      //     child: Row(
-      //       crossAxisAlignment: CrossAxisAlignment.stretch,
-      //       children: [
-      //         Expanded(
-      //             child: MinimalRenderView(
-      //                 id: 2,
-      //                 showImageValueNotifier: _showImageToogle)),
-      //         Expanded(
-      //             child: MinimalRenderView(
-      //                 id: 3,
-      //                 showImageValueNotifier: _showImageToogle))
-      //       ],
-      //     ),
-      //   ),
-      ],
-    );
-
+              child: MinimalRenderView(
+                  id: 1, showImageValueNotifier: _showImageToogle)),
+          Text("Unaligned Y"),
+          Container(
+              padding: const EdgeInsets.only(top: 0.5),
+              child: MinimalRenderView(
+                  id: 1, showImageValueNotifier: _showImageToogle)),
+          Text("Pixel aligned unaligned"),
+          Container(
+              padding: const EdgeInsets.only(left: 0.5),
+              child: PixelAlignedContainer(
+                  key: Key('2'),
+                  child: MinimalRenderView(
+                      id: 1, showImageValueNotifier: _showImageToogle)))
+          //   Expanded(
+          //     child: Row(
+          //       crossAxisAlignment: CrossAxisAlignment.stretch,
+          //       children: [
+          //         Expanded(
+          //             child: MinimalRenderView(
+          //                 id: 0,
+          //                 showImageValueNotifier: _showImageToogle)),
+          //         Expanded(
+          //             child: MinimalRenderView(
+          //                 id: 1,
+          //                 showImageValueNotifier: _showImageToogle))
+          //       ],
+          //     ),
+          //   ),
+          //   Expanded(
+          //     child: Row(
+          //       crossAxisAlignment: CrossAxisAlignment.stretch,
+          //       children: [
+          //         Expanded(
+          //             child: MinimalRenderView(
+          //                 id: 2,
+          //                 showImageValueNotifier: _showImageToogle)),
+          //         Expanded(
+          //             child: MinimalRenderView(
+          //                 id: 3,
+          //                 showImageValueNotifier: _showImageToogle))
+          //       ],
+          //     ),
+          //   ),
+        ],
+      )));
 }

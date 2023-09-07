@@ -68,14 +68,22 @@ class MinimalRenderViewState extends State<MinimalRenderView> {
 
   @override
   Widget build(BuildContext context) {
-
-    final Widget screenshotWidget = RawImage(
+    Widget screenshotWidget = RawImage(
       image: _screenshotImage,
       width: 640,
       height: 386,
-      fit: BoxFit.none,
+      fit: BoxFit.cover,
       alignment: Alignment.topLeft,
     );
+    // screenshotWidget = Image.memory(,
+    //   image: _screenshotImage,
+    //   width: 640,
+    //   height: 386,
+    //   fit: BoxFit.none,
+    //   alignment: Alignment.topLeft,
+    // );
+    
+    
 
     // minimal widget to show video as an HTML video element
     const videoWidget = HtmlVideoView(
@@ -92,21 +100,18 @@ class MinimalRenderViewState extends State<MinimalRenderView> {
       children.add(videoWidget);
     }
 
-    return 
-    
-        SizedBox(
-          width: 640,
-          height:386,
-      child: OverflowBox(
-        alignment: Alignment.topLeft,
-            child: Stack(
-                fit: StackFit.passthrough,
-              alignment: Alignment.topLeft,
-              children: children
-          )
-        )
-      
-    );
+    Widget child = Stack(
+                    // fit: StackFit.passthrough,
+                    alignment: Alignment.topLeft,
+                    children: children);
+    child = PositionOverlay(child: child);
+
+    return SizedBox(
+        width: 640,
+        height: 386,
+        child: OverflowBox(
+            alignment: Alignment.topLeft,
+                child: child));
   }
 }
 

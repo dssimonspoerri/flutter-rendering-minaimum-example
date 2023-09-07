@@ -6,11 +6,7 @@ import 'minimal_render_view_grid.dart';
 void main() {
   runApp(
     MaterialApp(
-      home: Scaffold(
-        body: SingleChildScrollView(
-          child: MinimalRenderViewGrid()
-        )
-      )
+      home: MinimalRenderViewGrid()
     )
   );
 }
