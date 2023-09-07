@@ -93,21 +93,19 @@ class MinimalRenderViewState extends State<MinimalRenderView> {
     }
 
     return 
-    PixelAlignedContainer(
-      key: Key('View-${widget.id}'),
-      child: OverflowBox(
-        alignment: Alignment.topLeft,
-        child: 
+    
         SizedBox(
           width: 640,
           height:386,
+      child: OverflowBox(
+        alignment: Alignment.topLeft,
             child: Stack(
                 fit: StackFit.passthrough,
               alignment: Alignment.topLeft,
               children: children
           )
         )
-      )
+      
     );
   }
 }
