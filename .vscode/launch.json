@@ -8,7 +8,7 @@
             "name": "pixel_snapping",
             "request": "launch",
             "type": "dart",
-            "args": ["--web-port=8081"]
+            // "args": ["--web-port=8081"]
         },
         {
             "name": "pixel_snapping (profile mode)",

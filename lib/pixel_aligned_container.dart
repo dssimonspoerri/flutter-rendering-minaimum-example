@@ -1,3 +1,4 @@
+import 'dart:core';
 import 'package:flutter/material.dart';
 
 class PositionOverlay extends StatefulWidget {
@@ -48,6 +49,7 @@ class PositionOverlayState extends State<PositionOverlay> {
 }
 
 
+
 class PixelAlignedContainer extends StatefulWidget {
   const PixelAlignedContainer({
     required this.child,
@@ -64,47 +66,91 @@ class PixelAlignedContainer extends StatefulWidget {
 class PixelAlignedContainerState extends State<PixelAlignedContainer> {
   PixelAlignedContainerState(this.child);
 
-  final Widget child;
+  Widget child;
+  final globalPositionNotifier = ValueNotifier<Offset>(Offset.zero);
 
-  Offset padding = Offset.zero;
+  Offset position = Offset.zero;
+  Size size = Size.zero;
 
+
+  @override
+  void didUpdateWidget(PixelAlignedContainer oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.child != widget.child) {
+      child = widget.child;
+    }
+  }
   @override
   Widget build(BuildContext context) {
 
-    void adjustPadding(Duration timestamp) {
+    final dpr = MediaQuery.of(context).devicePixelRatio;
+    // final dpr = 1.0;
+
+    void updateRenderBox(Duration timestamp) {
       final RenderBox renderBox = context.findRenderObject() as RenderBox;
       final Offset position = renderBox.localToGlobal(Offset.zero);
-      double subpixelX = position.dx % 1;
-      double subpixelY = position.dy % 1;
-      if((subpixelX != padding.dx || subpixelY != padding.dy)) {
+      // print('Renderbox ${renderBox.size.width}:${renderBox.size.height}');
+
+        print('${widget.key} Position: ${position.dx}:${position.dy}');
+      
+
+      if (position != this.position) {
+        print('${widget.key} Changed Position: ${position.dx}:${position.dy}');
         setState(() {
-            print('Set ${widget.key} ${subpixelX}:${subpixelY} (x:${position.dx}, y: ${position.dy})');
-            padding = Offset(subpixelX, subpixelY);
+          this.position = position;
+          globalPositionNotifier.value = position;
         });
       }
-      WidgetsBinding.instance.addPostFrameCallback(adjustPadding);
+      WidgetsBinding.instance.addPostFrameCallback(updateRenderBox);
     }
 
-    WidgetsBinding.instance.addPostFrameCallback(adjustPadding);
+    WidgetsBinding.instance.addPostFrameCallback(updateRenderBox);
 
-    print('Build ${widget.key} ${padding.dx}:${padding.dy}');
-    return 
-    Container(
-          padding:EdgeInsets.fromLTRB(padding.dx, padding.dy, 0,0),
-          alignment: Alignment.topLeft,
-          // decoration: BoxDecoration(
-          //   border: Border.all(
-          //     color: Colors.purple,    
-          //     width: 0.5
-          //   )
-          // ),
-          child: 
-          Stack(
-            children: [
-              child,
-              Text(' Align ${padding.dx} <-> ${padding.dy}', style: TextStyle(color: Colors.green),)
-            ],
-          ),
+    return CustomSingleChildLayout(delegate: _SnappingChildLayoutDelegate(globalPositionNotifier, dpr, widget.key.toString()), child: child,);
+  }
+}
+class _SnappingChildLayoutDelegate extends SingleChildLayoutDelegate {
+
+  _SnappingChildLayoutDelegate(this.globalParentPosition, this.dpr, this.key):super(relayout: globalParentPosition){
+    print('${key}');
+  }
+  
+  final double dpr;
+
+  final ValueNotifier<Offset> globalParentPosition;
+
+  final String? key;
+
+  @override
+  BoxConstraints getConstraintsForChild(BoxConstraints constraints) {
+        // print('getConstraintsForChild');
+
+    final childOffset = _getOffset();
+    Offset maxChildSize = Offset(constraints.maxWidth - childOffset.dx, constraints.maxHeight - childOffset.dy);
+    // maxChildSize = Offset(
+    //   maxChildSize.dx - (maxChildSize.dx % (1.0/dpr)),
+    //   maxChildSize.dy - (maxChildSize.dy % (1.0/dpr))
+    // );
+    print('${this.key}: ChildSize ${maxChildSize.dx}:${maxChildSize.dy}\t${childOffset.dx}:${childOffset.dy}\t${globalParentPosition.value.dx}:${globalParentPosition.value.dy}');
+    return BoxConstraints.tightFor(width: maxChildSize.dx, height: maxChildSize.dy);
+
+  }
+  @override
+  Offset getPositionForChild(Size size, Size childSize) {
+    // print('getPositionForChild');
+    return _getOffset();
+  }
+
+  Offset _getOffset() {
+    return Offset(
+      globalParentPosition.value.dx % (1.0 / dpr),
+      globalParentPosition.value.dy % (1.0 / dpr)
     );
+  }
+
+  @override
+  bool shouldRelayout(_SnappingChildLayoutDelegate oldDelegate) {
+    print('shouldRelayout');
+    return dpr == oldDelegate.dpr || globalParentPosition.value != oldDelegate.globalParentPosition.value;
   }
 }
