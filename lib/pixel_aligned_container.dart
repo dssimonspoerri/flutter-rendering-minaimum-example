@@ -137,7 +137,6 @@ class _SnappingChildLayoutDelegate extends SingleChildLayoutDelegate {
   }
   @override
   Offset getPositionForChild(Size size, Size childSize) {
-    // print('getPositionForChild');
     return _getOffset();
   }
 
@@ -150,7 +149,6 @@ class _SnappingChildLayoutDelegate extends SingleChildLayoutDelegate {
 
   @override
   bool shouldRelayout(_SnappingChildLayoutDelegate oldDelegate) {
-    print('shouldRelayout');
     return dpr == oldDelegate.dpr || globalParentPosition.value != oldDelegate.globalParentPosition.value;
   }
 }
