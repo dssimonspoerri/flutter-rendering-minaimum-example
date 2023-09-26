@@ -22,10 +22,36 @@ void main() {
               SizedBox(
                   width: 100,
                   height: 100,
+                  child: Jumping("testimage", key: Key("TM"))),
+              SizedBox(width: 10.333),
+              SizedBox(
+                  width: 100,
+                  height: 100,
                   child: Jumping("testimage", key: Key("TR"))),
             ],
           ),
           SizedBox(height: 10.5),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(width: 10),
+              SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: Jumping("testimage", key: Key("ML"))),
+              SizedBox(width: 10),
+              SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: Jumping("testimage", key: Key("MM"))),
+              SizedBox(width: 10.333),
+              SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: Jumping("testimage", key: Key("MR"))),
+            ],
+          ),
+          SizedBox(height: 10.333),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -38,10 +64,14 @@ void main() {
               SizedBox(
                   width: 100,
                   height: 100,
+                  child: Jumping("testimage", key: Key("BM"))),
+              SizedBox(width: 10.333),
+              SizedBox(
+                  width: 100,
+                  height: 100,
                   child: Jumping("testimage", key: Key("BR"))),
             ],
           ),
-          SizedBox(height: 10),
         ],
   )));
 }
