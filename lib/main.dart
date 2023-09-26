@@ -6,33 +6,44 @@ import 'package:flutter/services.dart';
 
 void main() {
   runApp(MaterialApp(
-      home: LayoutBuilder(
-          builder: (context, constraints) => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 10),
-                Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(width: 10),
-                        SizedBox(width: 100, height: 100, child: Jumping("testimage", key: Key("TL"))),
-                        SizedBox(width: 10.5),
-                        SizedBox(width: 100, height: 100, child: Jumping("testimage", key: Key("TR"))),
-                      ],
-                    ),
-                  SizedBox(height: 10.5),
-                  Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(width: 10),
-                        SizedBox(width: 100, height: 100, child: Jumping("testimage", key: Key("BL"))),
-                        SizedBox(width: 10),
-                        SizedBox(width: 100, height: 100, child: Jumping("testimage", key: Key("BR"))),
-                      ],
-                    ),
-                  SizedBox(height: 10),
-                ],
-              ))));
+      home: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 10),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(width: 10),
+              SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: Jumping("testimage", key: Key("TL"))),
+              SizedBox(width: 10.5),
+              SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: Jumping("testimage", key: Key("TR"))),
+            ],
+          ),
+          SizedBox(height: 10.5),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(width: 10),
+              SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: Jumping("testimage", key: Key("BL"))),
+              SizedBox(width: 10),
+              SizedBox(
+                  width: 100,
+                  height: 100,
+                  child: Jumping("testimage", key: Key("BR"))),
+            ],
+          ),
+          SizedBox(height: 10),
+        ],
+  )));
 }
 
 class Jumping extends StatefulWidget {
@@ -66,7 +77,6 @@ class JumpingState extends State<Jumping> {
       return element;
     });
 
-
     RawKeyboard.instance.addListener((value) {
       if (value.character == 'v') {
         showImageToogle.value = false;
@@ -82,15 +92,15 @@ class JumpingState extends State<Jumping> {
           "https://storage.googleapis.com/render-instance-testdata/red-100x100.png"),
       builder: (context, AsyncSnapshot<ui.Image> snapshot) =>
           ValueListenableBuilder(
-              valueListenable: showImageToogle,
-              builder: (context, value, child) => showImageToogle.value
-                        ? RawImage(
-                            image: snapshot.data,
-                            filterQuality: FilterQuality.none,
-                            fit: BoxFit.none,
-                            isAntiAlias: false)
-                        : HtmlElementView(viewType: elementType),
-                  ));
+            valueListenable: showImageToogle,
+            builder: (context, value, child) => showImageToogle.value
+                ? RawImage(
+                    image: snapshot.data,
+                    filterQuality: FilterQuality.none,
+                    fit: BoxFit.none,
+                    isAntiAlias: false)
+                : HtmlElementView(viewType: elementType),
+          ));
 
   Future<ui.Image> _getImage(String path) async {
     final completer = Completer<ImageInfo>();
@@ -105,4 +115,3 @@ class JumpingState extends State<Jumping> {
     return imageInfo.image;
   }
 }
-
