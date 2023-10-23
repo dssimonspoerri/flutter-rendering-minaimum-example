@@ -104,7 +104,7 @@ class MinimalRenderViewState extends State<MinimalRenderView> {
                     // fit: StackFit.passthrough,
                     alignment: Alignment.topLeft,
                     children: children);
-    child = PositionOverlay(child: child);
+    // child = PositionOverlay(child: child);
 
     return SizedBox(
         width: 640,
